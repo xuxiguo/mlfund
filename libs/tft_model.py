@@ -1036,7 +1036,7 @@ class TemporalFusionTransformer(object):
       Fully defined Keras model.
     """
 
-    with tf.variable_scope(self.name):
+    with tf.compat.v1.variable_scope(self.name):
 
       transformer_layer, all_inputs, attention_components \
           = self._build_base_graph()
