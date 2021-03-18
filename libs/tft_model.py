@@ -650,7 +650,7 @@ class TemporalFusionTransformer(object):
     valid_sampling_locations = []
     split_data_map = {}
     for identifier, df in data.groupby(id_col):
-      print('Getting locations for {}'.format(identifier))
+      # print('Getting locations for {}'.format(identifier))
       num_entries = len(df)
       if num_entries >= self.time_steps:
         valid_sampling_locations += [
@@ -939,7 +939,7 @@ class TemporalFusionTransformer(object):
     def get_lstm(return_state):
       """Returns LSTM cell initialized with default parameters."""
       if self.use_cudnn:
-        lstm = tf.keras.layers.CuDNNLSTM(
+        lstm = tf.compat.v1.keras.layers.CuDNNLSTM(
             self.hidden_layer_size,
             return_sequences=True,
             return_state=return_state,
@@ -1282,7 +1282,7 @@ class TemporalFusionTransformer(object):
       input_placeholder = self._input_placeholder
       attention_weights = {}
       for k in self._attention_components:
-        attention_weight = tf.keras.backend.get_session().run(
+        attention_weight =  tf.compat.v1.keras.backend.get_session().run(
             self._attention_components[k],
             {input_placeholder: input_batch.astype(np.float32)})
         attention_weights[k] = attention_weight
@@ -1348,7 +1348,7 @@ class TemporalFusionTransformer(object):
     # when model is reloaded (https://github.com/keras-team/keras/issues/4875).
 
     utils.save(
-        tf.keras.backend.get_session(),
+         tf.compat.v1.keras.backend.get_session(),
         model_folder,
         cp_name=self.name,
         scope=self.name)
@@ -1371,7 +1371,7 @@ class TemporalFusionTransformer(object):
     else:
       # Loads tensorflow graph for optimal models.
       utils.load(
-          tf.keras.backend.get_session(),
+           tf.compat.v1.keras.backend.get_session(),
           model_folder,
           cp_name=self.name,
           scope=self.name)

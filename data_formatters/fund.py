@@ -42,22 +42,22 @@ class FundFormatter(GenericDataFormatter):
       ('ranky', DataTypes.CATEGORICAL, InputTypes.TARGET),
       ('flow', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
       ('mtna', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('tna_fami', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('flow12', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('flow24', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('mgr_tenure', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('turn_ratio', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('per_com', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('PER_CASH', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('age', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('MGMT_FEE', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('load', DataTypes.CATEGORICAL, InputTypes.OBSERVED_INPUT),
-      ('Ind__Pro_', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('Inflation', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('Oil_prices', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('T_Bill_yield', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('Term_spread', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
-      ('Default_spread', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
+      # ('tna_fami', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
+      # ('flow12', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
+      # ('flow24', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
+      ('mgr_tenure', DataTypes.REAL_VALUED, InputTypes.KNOWN_INPUT),
+      ('turn_ratio', DataTypes.REAL_VALUED, InputTypes.KNOWN_INPUT),
+      # ('per_com', DataTypes.REAL_VALUED, InputTypes.KNOWN_INPUT),
+      # ('PER_CASH', DataTypes.REAL_VALUED, InputTypes.KNOWN_INPUT),
+      ('age', DataTypes.REAL_VALUED, InputTypes.KNOWN_INPUT),
+      ('MGMT_FEE', DataTypes.REAL_VALUED, InputTypes.STATIC_INPUT),
+      # ('load', DataTypes.CATEGORICAL, InputTypes.STATIC_INPUT),
+      # ('Ind__Pro_', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
+      # ('Inflation', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
+      # ('Oil_prices', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
+      # ('T_Bill_yield', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
+      # ('Term_spread', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
+      # ('Default_spread', DataTypes.REAL_VALUED, InputTypes.OBSERVED_INPUT),
       ('recession_nber', DataTypes.CATEGORICAL, InputTypes.OBSERVED_INPUT)
   ]
 
@@ -70,7 +70,7 @@ class FundFormatter(GenericDataFormatter):
     self._target_scaler = None
     self._num_classes_per_cat_input = None
 
-  def split_data(self, df, valid_boundary=200, test_boundary=240):
+  def split_data(self, df, valid_boundary=200, test_boundary=260):
     """Splits data frame into training-validation-test data frames.
 
     This also calibrates scaling object, and transforms data for each split.
@@ -200,8 +200,8 @@ class FundFormatter(GenericDataFormatter):
     """Returns fixed model parameters for experiments."""
 
     fixed_params = {
-        'total_time_steps': 252 + 5,
-        'num_encoder_steps': 252,
+        'total_time_steps': 36 + 5,
+        'num_encoder_steps': 36,
         'num_epochs': 100,
         'early_stopping_patience': 5,
         'multiprocessing_workers': 5,
@@ -216,7 +216,7 @@ class FundFormatter(GenericDataFormatter):
         'dropout_rate': 0.3,
         'hidden_layer_size': 160,
         'learning_rate': 0.01,
-        'minibatch_size': 64,
+        'minibatch_size': 16,
         'max_gradient_norm': 0.01,
         'num_heads': 1,
         'stack_size': 1
